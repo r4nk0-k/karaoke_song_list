@@ -5,7 +5,8 @@ import (
 )
 
 type Env struct {
-	Mysql mysql `envPrefix:"MYSQL_"`
+	Mysql mysql  `envPrefix:"MYSQL_"`
+	Port  string `env:"PORT"`
 }
 
 type mysql struct {
@@ -13,7 +14,7 @@ type mysql struct {
 	Username     string `env:"USERNAME"`
 	Password     string `env:"PASSWORD"`
 	Host         string `env:"HOST"`
-	Port         int    `env:"PORT"`
+	Port         string `env:"PORT"`
 }
 
 var parsedEnv = Env{}
