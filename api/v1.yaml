@@ -1,10 +1,9 @@
-openapi: 3.1.0
+openapi: 3.0.0
 x-stoplight:
   id: uyqrx0ssunjtn
 info:
   title: karaoke_list
   version: '1.0'
-  summary: カラオケの曲目リストを作ります
 servers:
   - url: 'http://localhost:3000'
 paths:
@@ -231,10 +230,4 @@ components:
         score:
           type: integer
           description: 楽曲の最高得点(optional)
-      examples:
-        - id: 550e8400-e29b-41d4-a716-446655440000
-          name: 君が代
-          key: 0
-          category: J-POP
-          score: 100
       description: 楽曲情報
