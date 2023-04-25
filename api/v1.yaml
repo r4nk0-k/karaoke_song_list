@@ -1,1 +1,233 @@
-# OpenAPI/Swagger API定義
+openapi: 3.0.0
+x-stoplight:
+  id: uyqrx0ssunjtn
+info:
+  title: karaoke_list
+  version: '1.0'
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  /v1/api/songs:
+    parameters: []
+    get:
+      summary: Get Song List
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    songs:
+                      - id: '1'
+                        name: song1
+                        key: 1
+                        category: vocaloid
+                        score: 90
+                      - id: '2'
+                        name: song2
+                        key: 0
+                        category: jpop
+                        score: 82
+                properties:
+                  songs:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Song'
+              examples:
+                Example 1:
+                  value:
+                    songs:
+                      - id: '1'
+                        name: song1
+                        key: 1
+                        category: vocaloid
+                        score: 90
+                      - id: '2'
+                        name: song2
+                        key: 0
+                        category: jpop
+                        score: 82
+        '404':
+          description: Not Found
+      operationId: get-songs
+      description: 自身が保存している楽曲の一覧を返却します。
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: name
+          description: 名前で絞り込みます
+        - schema:
+            type: string
+          in: query
+          name: key
+          description: キーで絞り込みます
+        - schema:
+            type: string
+          in: query
+          name: category
+          description: カテゴリで絞り込みます
+        - schema:
+            type: string
+          in: query
+          name: under_score
+          description: 下限の点数で絞り込みます
+        - schema:
+            type: string
+          in: query
+          name: upper_score
+          description: 上限の点数で絞り込みます
+        - schema:
+            type: string
+          in: query
+          name: sort
+          description: 'ソート方式を指定します。Ex. DESC, ASC'
+        - schema:
+            type: string
+          in: query
+          name: sort_key
+          description: どのパラメータでソートするかを指定します。
+    post:
+      summary: 楽曲の追加
+      operationId: postv1-songs
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Song'
+              examples:
+                Example 1:
+                  value:
+                    id: 550e8400-e29b-41d4-a716-446655440000
+                    name: 君が代
+                    key: 0
+                    category: J-POP
+                    score: 100
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                key:
+                  type: integer
+                category:
+                  type: string
+                score:
+                  type: integer
+              x-examples:
+                Example 1:
+                  name: song1
+                  key: 1
+                  category: vocaloid
+                  score: 100
+            examples:
+              Example 1:
+                value:
+                  name: song1
+                  key: 1
+                  category: vocaloid
+                  score: 100
+  '/v1/api/songs/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        description: 楽曲を特定するid
+        required: true
+    put:
+      summary: 楽曲の更新
+      operationId: put-v1-api-songs-id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Song'
+        '404':
+          description: Not Found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                key:
+                  type: integer
+                category:
+                  type: string
+                score:
+                  type: integer
+              x-examples:
+                Example 1:
+                  name: song1
+                  key: 1
+                  category: vocaloid
+                  score: 100
+            examples:
+              Example 1:
+                value:
+                  name: string
+                  key: 0
+                  category: string
+                  score: 0
+    get:
+      summary: 楽曲の取得
+      operationId: get-v1-api-songs-id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Song'
+        '404':
+          description: Not Found
+    delete:
+      summary: 楽曲の削除
+      operationId: delete-v1-api-songs-id
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not Found
+components:
+  schemas:
+    Song:
+      type: object
+      x-examples:
+        Example 1:
+          id: '2'
+          name: song2
+          key: 0
+          category: jpop
+          score: 82
+      properties:
+        id:
+          type: string
+          description: 楽曲を一意に特定するID. UUID
+        name:
+          type: string
+          description: 楽曲名
+        key:
+          type: integer
+          description: 楽曲のキー
+        category:
+          type: string
+          description: 楽曲のカテゴリー
+        score:
+          type: integer
+          description: 楽曲の最高得点(optional)
+      description: 楽曲情報
