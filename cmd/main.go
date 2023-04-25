@@ -15,6 +15,7 @@ import (
 )
 
 func main() {
+	// mainの動作を引数で切り替えたいのでなんかコマンドを増やす
 	rootCommand.AddCommand(runServer)
 	rootCommand.AddCommand(initMysqlContainer)
 	if err := rootCommand.Execute(); err != nil {
@@ -28,6 +29,7 @@ var (
 		Short: "run karaoke_song_list server process",
 	}
 
+	// useに指定した引数が来たらこのコマンドを実行する. ex. go run cmd/main.go run
 	runServer = &cobra.Command{
 		Use: "run",
 
@@ -60,6 +62,7 @@ const (
 	DefaultMysqlHost         = "localhost"
 )
 
+// mysqlのdocker containerを起動する
 func newMysqlContainer(containerName string, hostMysqlPort string) {
 	pool, err := dockertest.NewPool("")
 	pool.MaxWait = time.Minute * 5
@@ -67,6 +70,7 @@ func newMysqlContainer(containerName string, hostMysqlPort string) {
 		log.Fatal(err)
 	}
 
+	// containerがすでにあったら削除する
 	if err := pool.RemoveContainerByName(containerName); err != nil {
 		log.Fatal(err)
 	}

@@ -15,6 +15,7 @@ type SongDBController struct {
 	DB *gorm.DB
 }
 
+// SongDBControllerの初期化
 func NewSongDBController() (*SongDBController, error) {
 	dsn := GenerateDSNFromEnv()
 	sqlDB, err := sql.Open("mysql", dsn)
@@ -40,12 +41,14 @@ func NewSongDBController() (*SongDBController, error) {
 	return &SongDBController{DB: gormDB}, nil
 }
 
+// DBのマイグレート, まだDBの構造を定義してないので使ってない
 func (c *SongDBController) Migrate(models ...interface{}) error {
 	return c.DB.AutoMigrate(
 		models...,
 	)
 }
 
+// ListSong本体、仮実装
 func ListSong() ([]entity.Song, error) {
 	return []entity.Song{{ID: "test"}}, nil
 }
